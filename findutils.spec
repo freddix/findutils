@@ -28,6 +28,8 @@ command).
 %prep
 %setup -q
 
+sed -i "/AM_C_PROTOTYPES/d" configure.ac
+
 %build
 %{__aclocal} -I gnulib/m4 -I m4
 %{__autoconf}
