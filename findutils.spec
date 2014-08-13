@@ -1,7 +1,7 @@
 Summary:	GNU Find Utilities (find, xargs)
 Name:		findutils
 Version:	4.4.2
-Release:	4
+Release:	5
 Epoch:		1
 License:	GPL
 Group:		Applications/File
@@ -28,7 +28,8 @@ command).
 %prep
 %setup -q
 
-sed -i "/AM_C_PROTOTYPES/d" configure.ac
+%{__sed} -i "/AM_C_PROTOTYPES/d" configure.ac
+%{__sed} -i "/^SUBDIRS/s/locate//" Makefile.am
 
 %build
 %{__aclocal} -I gnulib/m4 -I m4
@@ -44,22 +45,15 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# unpackaged locate
-rm -f $RPM_BUILD_ROOT%{_bindir}/{locate,updatedb} \
-	$RPM_BUILD_ROOT%{_libdir}/{bigram,code,frcode} \
-	$RPM_BUILD_ROOT%{_mandir}/{,*/}man?/{locate.1,updatedb.1,locatedb.5}*
-
-rm -f $RPM_BUILD_ROOT{%{_infodir}/dir,%{_mandir}/README.findutils-non-english-man-pages}
-
 %find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p	/sbin/postshell
+%post -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun	-p	/sbin/postshell
+%postun -p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files -f %{name}.lang
