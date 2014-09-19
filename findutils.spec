@@ -1,7 +1,8 @@
+# based on PLD Linux spec git://git.pld-linux.org/packages/findutils.git
 Summary:	GNU Find Utilities (find, xargs)
 Name:		findutils
 Version:	4.4.2
-Release:	5
+Release:	6
 Epoch:		1
 License:	GPL
 Group:		Applications/File
